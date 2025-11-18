@@ -1,34 +1,17 @@
-var builder = WebApplication.CreateBuilder(args);
-var app = builder.Build();
+Random dice = new Random();
 
-app.Urls.Add("http://localhost:5000");
+int monsterAC = 18;
 
-app.MapGet("/", () => "Hello World!");
+Console.WriteLine("Press enter to roll your D20.");
+Console.ReadLine();
 
-app.MapGet("/{cityName}/weather", GetWeatherByCity);
+int d20Roll = dice.Next(1, 21);
+Console.WriteLine("You rolled a " + Convert.ToString(d20Roll) + ".");
 
-app.Run();
-
-
-Weather GetWeatherByCity(string cityName)
+if (d20Roll >= monsterAC)
 {
-    app.Logger.LogInformation($"Weather requested for {cityName}.");
-    var weather = new Weather(cityName);
-    return weather;
-}
-
-public record Weather
+    Console.WriteLine("You hit the monster.");
+} else
 {
-    public string City { get; set; }
-
-    public Weather(string city)
-    {
-        City = city;
-        Conditions = "Cloudy";
-        // Temperature here is in celsius degrees, hence the 0-40 range.
-        Temperature = new Random().Next(0,40).ToString();
-    }
-
-    public string Conditions { get; set; }
-    public string Temperature { get; set; }
+    Console.WriteLine("You missed loser.");
 }
